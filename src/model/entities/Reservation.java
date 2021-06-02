@@ -30,6 +30,8 @@ public class Reservation {
         this.checkOut = checkOut;
     }
 
+   
+
     public int getRoomNumber() {
         return roomNumber;
     }
@@ -54,9 +56,18 @@ public class Reservation {
         
     }  
     
-    public void updateDates(Date checkIn,Date checkOut){
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
+    public String updateDates(Date checkIn,Date checkOut){
+        Date now = new Date();
+            
+            if (checkIn.before(now) || checkOut.before(now)) {
+                return "Reservation dates update must be future date";
+            }else if(!checkOut.after(checkIn)){
+                return "Error in reservation: Check-out date must be"
+                    + " after check-in date";
+            }    
+            this.checkIn = checkIn;
+            this.checkOut = checkOut;
+            return null;
     }
     
     @Override
@@ -69,6 +80,7 @@ public class Reservation {
             +sdf.format(checkOut)
             +", "
             + duration()
-            +" nights.";
+            + " nigths.";        
+                    
     }
 }
